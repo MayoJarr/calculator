@@ -42,17 +42,46 @@ reset.addEventListener("click", () => {
     secondNumber = [];
     secondDisplay.textContent = "";
 });
-equal.addEventListener("click", () =>
-    operate(operation, screenNumbers, secondNumber)
-);
-multiply.addEventListener("click", () => {
-    operation = "multiply";
-    display.textContent = Number(screenNumbers.join("")) + "*";
-    isSecondLine =true;
+equal.addEventListener("click", () => {
+    operate(operation, screenNumbers, secondNumber);
+    isSecondLine = false;
 });
-divide.addEventListener("click", () => (operation = "divide"));
-add.addEventListener("click", () => (operation = "add"));
-substract.addEventListener("click", () => (operation = "substract"));
+multiply.addEventListener("click", () => {
+    if (screenNumbers.length === 0) {
+    } else {
+        operation = "multiply";
+        display.textContent = Number(screenNumbers.join("")) + "*";
+        isSecondLine = true;
+        display.style.cssText = "opacity: .5;"
+    }
+});
+divide.addEventListener("click", () => {
+    if (screenNumbers.length === 0) {
+    } else {
+        display.style.cssText = "opacity: .5;"
+        operation = "divide";
+        display.textContent = Number(screenNumbers.join("")) + "/";
+        isSecondLine = true;
+    }
+});
+add.addEventListener("click", () => {
+    if (screenNumbers.length === 0) {
+    } else {
+        display.style.cssText = "opacity: .5;"
+        operation = "add";
+        display.textContent = Number(screenNumbers.join("")) + "+";
+        isSecondLine = true;
+    }
+});
+substract.addEventListener("click", () => {
+    if (screenNumbers.length === 0) {
+    } else {
+        display.style.cssText = "opacity: .5;"
+        operation = "substract";
+        display.textContent = Number(screenNumbers.join("")) + "-";
+        isSecondLine = true;
+    }
+});
 
 function addToDisplay(key) {
     if (isSecondLine === false) {
@@ -60,54 +89,57 @@ function addToDisplay(key) {
         let text = Number(screenNumbers.join(""));
         display.textContent = text;
         if (screenNumbers.length === 13) {
-            console.log("full");
+            secondDisplay.textContent = "oh fuck just dont do it, idk how to repair it,"
             screenNumbers = [];
+            secondNumber = [];
         }
     } else if (isSecondLine === true) {
         secondNumber.push(key);
         let text2 = Number(secondNumber.join(""));
         secondDisplay.textContent = text2;
         if (secondNumber.length === 13) {
-            console.log("full");
+            secondDisplay.textContent = "oh fuck just dont do it, idk how to repair it"
             secondNumber = [];
+            screenNumbers = [];
         }
     }
 }
 
 function operate(operation, number1, number2) {
     number1 = Number(number1.join(""));
+    number2 = Number(number2.join(""));
     if (operation === "multiply") {
-        display.textContent = number1 * number2;
+        secondDisplay.textContent = number1 * number2;
+        display.textContent = number1 + "*" + number2;
+        secondNumber = [];
+        screenNumbers = [];
+        
     } else if (operation === "divide") {
         if (number2 === 0) {
-            display.textContent = "ERROR";
+            secondDisplay.textContent = "ERROR";
+            display.textContent = number1 + "/" + number2;
         } else {
-            display.textContent = number1 / number2;
+            secondDisplay.textContent = number1 / number2;
+            display.textContent = number1 + "/" + number2;
         }
     } else if (operation === "add") {
-        return number1 + number2;
+        secondDisplay.textContent = number1 + number2;
+        display.textContent = number1 + "+" + number2;
     } else if (operation === "substract") {
-        return number1 - number2;
+        secondDisplay.textContent = number1 - number2;
+        display.textContent = number1 + "-" + number2;
     }
 }
-let some = "12+12";
-console.log(Number(some));
+
 /*--------------Theme switching -----------*/
 
-// Select the button
 const btn = document.querySelector(".btn-toggle");
-// Select the stylesheet <link>
 const theme = document.querySelector("#theme-link");
 
-// Listen for a click on the button
 btn.addEventListener("click", function () {
-    // If the current URL contains "ligh-theme.css"
     if (theme.getAttribute("href") == "light-theme.css") {
-        // ... then switch it to "dark-theme.css"
         theme.href = "dark-theme.css";
-        // Otherwise...
     } else {
-        // ... switch it to "light-theme.css"
         theme.href = "light-theme.css";
     }
 });
